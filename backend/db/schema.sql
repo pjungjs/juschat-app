@@ -19,6 +19,7 @@ CREATE TABLE users (
   last_name VARCHAR(80),
   email VARCHAR(100),
   title TEXT,
+  is_online BOOLEAN DEFAULT false,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,8 +36,8 @@ CREATE TABLE chatrooms (
 );
 
 
--- Create the "chatroom_members" table
-CREATE TABLE chatroom_members (
+-- Create the "members" table
+CREATE TABLE members (
   id SERIAL PRIMARY KEY,
   room_id INTEGER REFERENCES chatrooms (id) ON DELETE CASCADE,
   member_id INTEGER REFERENCES users (id) ON DELETE CASCADE

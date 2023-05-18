@@ -6,19 +6,19 @@
 
 -- Insert data into the "users" table
 INSERT INTO users
-(username, password, first_name, last_name, email, title, created_at)
+(username, password, first_name, last_name, email, title, is_online, created_at)
 VALUES
-('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', '2023-05-17 09:00:00'),
-('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', '2023-05-17 09:05:00'),
-('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', '2023-05-17 09:10:00'),
-('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', '2023-05-17 09:15:00'),
-('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', '2023-05-17 09:20:00'),
-('angela_martin', 'password106', 'Angela', 'Martin', 'angela.martin@dundermifflin.com', 'Senior Accountant', '2023-05-17 09:25:00'),
-('kevin_malone', 'password107', 'Kevin', 'Malone', 'kevin.malone@dundermifflin.com', 'Accountant', '2023-05-17 09:30:00'),
-('oscar_martinez', 'password108', 'Oscar', 'Martinez', 'oscar.martinez@dundermifflin.com', 'Accountant', '2023-05-17 09:35:00'),
-('user1', NULL, NULL, NULL, NULL, NULL, '2023-05-17 10:30:00'),
-('user2', NULL, NULL, NULL, NULL, NULL, '2023-05-17 10:35:00'),
-('user3', NULL, NULL, NULL, NULL, NULL, '2023-05-17 10:40:00');
+('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', false, '2023-05-17 09:00:00'),
+('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', false, '2023-05-17 09:05:00'),
+('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', false, '2023-05-17 09:10:00'),
+('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', false, '2023-05-17 09:15:00'),
+('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', false, '2023-05-17 09:20:00'),
+('angela_martin', 'password106', 'Angela', 'Martin', 'angela.martin@dundermifflin.com', 'Senior Accountant', false, '2023-05-17 09:25:00'),
+('kevin_malone', 'password107', 'Kevin', 'Malone', 'kevin.malone@dundermifflin.com', 'Accountant', false, '2023-05-17 09:30:00'),
+('oscar_martinez', 'password108', 'Oscar', 'Martinez', 'oscar.martinez@dundermifflin.com', 'Accountant', false, '2023-05-17 09:35:00'),
+('user1', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:30:00'),
+('user2', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:35:00'),
+('user3', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:40:00');
 
 
 -- Insert mock data for "chatrooms" table
@@ -34,8 +34,8 @@ VALUES
 ('Fun', '2023-05-17 10:55:00', 1, 1, true, 'For fun');
 
 
--- Insert mock data for "chatroom_members" table
-INSERT INTO chatroom_members
+-- Insert mock data for "members" table
+INSERT INTO members
 (room_id, member_id)
 VALUES
 (1, 1),
