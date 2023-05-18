@@ -20,9 +20,9 @@ users.get('/', async (req, res) => {
 })
 
 //show route
-users.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const oneUser = await getOneUser(id);
+users.get('/:name', async (req, res) => {
+  const { name } = req.params;
+  const oneUser = await getOneUser(name);
 
   if (oneUser.success) {
     res.status(200).json(oneUser.payload);
@@ -44,9 +44,9 @@ users.post('/', async (req, res) => {
 })
 
 //delete route
-users.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const deletedUser = await deleteUser(id);
+users.delete('/:name', async (req, res) => {
+  const { name } = req.params;
+  const deletedUser = await deleteUser(name);
 
   if (deletedUser.success) {
     res.status(200).json(deletedUser.payload);
@@ -56,10 +56,10 @@ users.delete('/:id', async (req, res) => {
 })
 
 //update route
-users.put('/:id', async (req, res) => {
-  const { id } = req.params;
+users.put('/:name', async (req, res) => {
+  const { name } = req.params;
   const editUser = req.body;
-  const updatedUser = await updateUser(id, editUser);
+  const updatedUser = await updateUser(name, editUser);
 
   if (updatedUser.success) {
     res.status(200).json(updatedUser.payload);

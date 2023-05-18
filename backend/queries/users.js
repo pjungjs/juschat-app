@@ -11,9 +11,9 @@ const getAllUsers = async () => {
 }
 
 //show query
-const getOneUser = async (id) => {
+const getOneUser = async (name) => {
   try {
-    const oneUser = await db.one("SELECT * FROM users WHERE id=$1;", id);
+    const oneUser = await db.one("SELECT * FROM users WHERE username=$1;", name);
     return { success: true, payload: oneUser };
   } catch (error) {
     return { success: false, payload: `users, show query error. ${error}` };
@@ -36,9 +36,9 @@ const createUser = async (userToAdd) => {
 }
 
 //delete query
-const deleteUser = async (id) => {
+const deleteUser = async (name) => {
   try {
-    const deletedUser = await db.one("DELETE FROM users WHERE id=$1 RETURNING *;", id);
+    const deletedUser = await db.one("DELETE FROM users WHERE username=$1 RETURNING *;", name);
     return { success: true, payload: deletedUser };
   } catch (error) {
     return { success: false, payload: `users, delete query error. ${error}` };
@@ -46,13 +46,13 @@ const deleteUser = async (id) => {
 }
 
 //update query
-const updateUser = async (id, userToUpdate) => {
+const updateUser = async (name, userToUpdate) => {
   const { username, password, first_name, last_name, email, title, is_online, created_at } = userToUpdate;
 
   try {
     const updatedUser = await db.one(
-      "UPDATE users SET username=$1, password=$2, first_name=$3, last_name=$4, email=$5, title=$6, is_online=$7, created_at=$8 WHERE id=$9 RETURNING *;",
-      [username, password, first_name, last_name, email, title, is_online, created_at, id]
+      "UPDATE users SET username=$1, password=$2, first_name=$3, last_name=$4, email=$5, title=$6, is_online=$7, created_at=$8 WHERE username=$9 RETURNING *;",
+      [username, password, first_name, last_name, email, title, is_online, created_at, name]
     );
     return { success: true, payload: updatedUser };
   } catch (error) {
