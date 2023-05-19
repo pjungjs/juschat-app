@@ -5,7 +5,7 @@ const API = process.env.REACT_APP_API_URL;
 
 function UserLogIn({ setUser }) {
   const [allUsers, setAllUsers] = useState({});
-  const [hasAccount, setHasAccount] = useState(false);
+  const [hasAccount, setHasAccount] = useState(true);
   const [logInUser, setLogInUser] = useState({
     username: "",
     password: "",
@@ -78,10 +78,6 @@ function UserLogIn({ setUser }) {
             value={logInUser.username}
             placeholder="username"
             pattern="^[a-z][a-z0-9_]*$"
-            // ^ asserts the start of the string.
-            // [a-z] matches any lowercase letter. This ensures that the string starts with a lowercase letter.
-            // [a-z0-9_]* matches zero or more occurrences of lowercase letters, numbers, or underscores. This allows for any combination of these characters after the first lowercase letter.
-            // $ asserts the end of the string.
             onChange={handleTextChange}
             className="block w-full rounded-md p-2 mb-2 border"
             required
@@ -100,7 +96,7 @@ function UserLogIn({ setUser }) {
           <button type="submit" className="bg-blue-400 text-white block w-full rounded-md p-2 hover:bg-blue-500">
             {
               !hasAccount
-              ? <p>Sign Up</p>
+              ? <p>JusChat</p>
               : <p>Sign In</p>
             }
           </button>
@@ -109,15 +105,15 @@ function UserLogIn({ setUser }) {
           {!hasAccount ? (
             <div>
               <p>Already have an Account?</p>
-              <button onClick={handleOnClick} className="hover:underline hover:text-blue-700">
+              <button onClick={handleOnClick} className="text-blue-700 hover:underline">
                 Sign In
               </button>
             </div>
           ) : (
             <div>
               <p>Don't have an Account?</p>
-              <button onClick={handleOnClick} className="hover:underline hover:text-blue-700">
-                Sign Up
+              <button onClick={handleOnClick} className="text-blue-700 hover:underline">
+                JusChat!
               </button>
             </div>
           )}
