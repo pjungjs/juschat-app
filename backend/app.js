@@ -11,6 +11,7 @@ app.use(express.json());
 const usersController = require("./controllers/usersController.js");
 const messagesController = require("./controllers/messagesController.js");
 const chatroomsController = require("./controllers/chatroomsController.js");
+const membersController = require("./controllers/membersController.js");
 
 // ROUTES
 app.get("/", (_, res) => {
@@ -20,6 +21,7 @@ app.get("/", (_, res) => {
 app.use("/users", usersController);
 app.use("/messages", messagesController);
 app.use("/chatrooms", chatroomsController);
+app.use("/members", membersController);
 
 app.get("*", (_, res) => {
   res.status(404).send("Page Not Found!");

@@ -10,24 +10,24 @@ const getAllMessages = async () => {
   }
 }
 
-//show query
-const getOneMessage = async (id) => {
+//index query chatroom_id
+const getAllMessagesByRoom = async (chatroomId) => {
   try {
-    const oneMessage = await db.one("SELECT * FROM messages WHERE id=$1;", id);
-    return { success: true, payload: oneMessage };
+    const allMessagesByRoom = await db.any("SELECT * FROM messages WHERE chatroom_id=$1", chatroomId);
+    return { success: true, payload: allMessagesByRoom };
   } catch (error) {
-    return { success: false, payload: `messages, show query error. ${error}` };
+    return { success: false, payload: `messages, index query error. ${error}` };
   }
 }
 
 //create query
 const createMessage = async (messageToAdd) => {
-  const { chatroom_id, sender_id, content, sent_at } = messageToAdd;
+  const { chatroom_id, user_id, message, sent_at } = messageToAdd;
 
   try {
     const newMessage = await db.one(
-      "INSERT INTO messages (chatroom_id, sender_id, content, sent_at) VALUES ($1, $2, $3, $4) RETURNING *;",
-      [chatroom_id, sender_id, content, sent_at]
+      "INSERT INTO messages (chatroom_id, user_id, message, sent_at) VALUES ($1, $2, $3, $4) RETURNING *;",
+      [chatroom_id, user_id, message, sent_at]
     );
     return { success: true, payload: newMessage };
   } catch (error) {
@@ -47,12 +47,12 @@ const deleteMessage = async (id) => {
 
 //update query
 const updateMessage = async (id, messageToUpdate) => {
-  const { chatroom_id, sender_id, content, sent_at } = messageToUpdate;
+  const { chatroom_id, user_id, message, sent_at } = messageToUpdate;
 
   try {
     const updatedMessage = await db.one(
-      "UPDATE messages SET chatroom_id=$1, sender_id=$2, content=$3, sent_at=$4 WHERE id=$5 RETURNING *;",
-      [chatroom_id, sender_id, content, sent_at, id]
+      "UPDATE messages SET chatroom_id=$1, user_id=$2, message=$3, sent_at=$4 WHERE id=$5 RETURNING *;",
+      [chatroom_id, user_id, message, sent_at, id]
     );
     return { success: true, payload: updatedMessage };
   } catch (error) {
@@ -63,7 +63,7 @@ const updateMessage = async (id, messageToUpdate) => {
 
 module.exports = {
   getAllMessages,
-  getOneMessage,
+  getAllMessagesByRoom,
   createMessage,
   deleteMessage,
   updateMessage

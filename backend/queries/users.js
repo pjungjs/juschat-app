@@ -10,7 +10,7 @@ const getAllUsers = async () => {
   }
 }
 
-//show query
+//show query by username
 const getOneUser = async (name) => {
   try {
     const oneUser = await db.one("SELECT * FROM users WHERE username=$1;", name);
@@ -22,12 +22,12 @@ const getOneUser = async (name) => {
 
 //create query
 const createUser = async (userToAdd) => {
-  const { username, password, first_name, last_name, email, title, is_online, created_at } = userToAdd;
+  const { username, password, first_name, last_name, email, short_bio, is_online, created_at } = userToAdd;
 
   try {
     const newUser = await db.one(
-      "INSERT INTO users (username, password, first_name, last_name, email, title, is_online, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
-      [username, password, first_name, last_name, email, title, is_online, created_at]
+      "INSERT INTO users (username, password, first_name, last_name, email, short_bio, is_online, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;",
+      [username, password, first_name, last_name, email, short_bio, is_online, created_at]
     );
     return { success: true, payload: newUser };
   } catch (error) {
@@ -47,12 +47,12 @@ const deleteUser = async (name) => {
 
 //update query
 const updateUser = async (name, userToUpdate) => {
-  const { username, password, first_name, last_name, email, title, is_online, created_at } = userToUpdate;
+  const { username, password, first_name, last_name, email, short_bio, is_online, created_at } = userToUpdate;
 
   try {
     const updatedUser = await db.one(
-      "UPDATE users SET username=$1, password=$2, first_name=$3, last_name=$4, email=$5, title=$6, is_online=$7, created_at=$8 WHERE username=$9 RETURNING *;",
-      [username, password, first_name, last_name, email, title, is_online, created_at, name]
+      "UPDATE users SET username=$1, password=$2, first_name=$3, last_name=$4, email=$5, short_bio=$6, is_online=$7, created_at=$8 WHERE username=$9 RETURNING *;",
+      [username, password, first_name, last_name, email, short_bio, is_online, created_at, name]
     );
     return { success: true, payload: updatedUser };
   } catch (error) {

@@ -1,33 +1,33 @@
 const db = require('../db/dbConfig.js');
 
-//index query
-const getAllMembers = async (chatroomId) => {
+//index query all
+const getAllMembers = async () => {
   try {
-    const allMembers = await db.any("SELECT * FROM members WHERE room_id=$1", chatroomId);
+    const allMembers = await db.any("SELECT * FROM members");
     return { success: true, payload: allMembers };
   } catch (error) {
     return { success: false, payload: `members, index query error. ${error}` };
   }
 }
 
-//show query
-const getOneMember = async (id) => {
+//index query by chatroom_id
+const getAllMembersByRoom = async (chatroomId) => {
   try {
-    const oneMember = await db.one("SELECT * FROM members WHERE id=$1;", id);
-    return { success: true, payload: oneMember };
+    const allMembersByRoom = await db.any("SELECT * FROM members WHERE chatroom_id=$1", chatroomId);
+    return { success: true, payload: allMembersByRoom };
   } catch (error) {
-    return { success: false, payload: `members, show query error. ${error}` };
+    return { success: false, payload: `members, index query error. ${error}` };
   }
 }
 
 //create query
 const createMember = async (memberToAdd) => {
-  const { room_id, member_id } = memberToAdd;
+  const { chatroom_id, user_id } = memberToAdd;
 
   try {
     const newMember = await db.one(
-      "INSERT INTO members (room_id, member_id) VALUES ($1, $2) RETURNING *;",
-      [room_id, member_id]
+      "INSERT INTO members (chatroom_id, user_id) VALUES ($1, $2) RETURNING *;",
+      [chatroom_id, user_id]
     );
     return { success: true, payload: newMember };
   } catch (error) {
@@ -47,12 +47,12 @@ const deleteMember = async (id) => {
 
 //update query
 const updateMember = async (id, memberToUpdate) => {
-  const { room_id, member_id } = memberToUpdate;
+  const { chatroom_id, user_id } = memberToUpdate;
 
   try {
     const updatedMember = await db.one(
-      "UPDATE members SET room_id=$1, member_id=$2 WHERE id=$3 RETURNING *;",
-      [room_id, member_id, id]
+      "UPDATE members SET chatroom_id=$1, user_id=$2 WHERE id=$3 RETURNING *;",
+      [chatroom_id, user_id, id]
     );
     return { success: true, payload: updatedMember };
   } catch (error) {
@@ -63,7 +63,7 @@ const updateMember = async (id, memberToUpdate) => {
 
 module.exports = {
   getAllMembers,
-  getOneMember,
+  getAllMembersByRoom,
   createMember,
   deleteMember,
   updateMember

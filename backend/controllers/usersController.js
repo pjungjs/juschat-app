@@ -19,7 +19,7 @@ users.get('/', async (req, res) => {
   }
 })
 
-//show route
+//show route by username
 users.get('/:name', async (req, res) => {
   const { name } = req.params;
   const oneUser = await getOneUser(name);

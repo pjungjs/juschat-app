@@ -2,32 +2,32 @@ const express = require('express');
 const messages = express.Router();
 const { 
   getAllMessages,
-  getOneMessage,
+  getAllMessagesByRoom,
   createMessage,
   deleteMessage,
   updateMessage
 } = require('../queries/messages.js');
 
-//index route
+//index route all
 messages.get('/', async (req, res) => {
   const allMessages = await getAllMessages();
 
   if (allMessages.success) {
     res.status(200).json(allMessages.payload);
   } else {
-    res.status(400).json({ error: `messages, index route error. ${allMessages.payload}` });
+    res.status(400).json({ error: `messages, all index route error. ${allMessages.payload}` });
   }
 })
 
-//show route
-messages.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const oneMessage = await getOneMessage(id);
+//index route all by chatroom_id
+messages.get('/:chatroomId', async (req, res) => {
+  const { chatroomId } = req.params;
+  const allMessagesByRoom = await getAllMessagesByRoom(chatroomId);
 
-  if (oneMessage.success) {
-    res.status(200).json(oneMessage.payload);
+  if (allMessagesByRoom.success) {
+    res.status(200).json(allMessagesByRoom.payload);
   } else {
-    res.status(400).json({ error: `messages, show route error. ${oneMessage.payload}` });
+    res.status(400).json({ error: `messages, all index by chatroomId route error. ${allMessagesByRoom.payload}` });
   }
 })
 

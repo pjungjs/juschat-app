@@ -6,37 +6,34 @@
 
 -- Insert data into the "users" table
 INSERT INTO users
-(username, password, first_name, last_name, email, title, is_online, created_at)
+(username, password, first_name, last_name, email, short_bio, is_online, created_at)
 VALUES
-('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', false, '2023-05-17 09:00:00'),
-('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', false, '2023-05-17 09:05:00'),
-('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', false, '2023-05-17 09:10:00'),
-('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', false, '2023-05-17 09:15:00'),
-('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', false, '2023-05-17 09:20:00'),
-('angela_martin', 'password106', 'Angela', 'Martin', 'angela.martin@dundermifflin.com', 'Senior Accountant', false, '2023-05-17 09:25:00'),
-('kevin_malone', 'password107', 'Kevin', 'Malone', 'kevin.malone@dundermifflin.com', 'Accountant', false, '2023-05-17 09:30:00'),
-('oscar_martinez', 'password108', 'Oscar', 'Martinez', 'oscar.martinez@dundermifflin.com', 'Accountant', false, '2023-05-17 09:35:00'),
-('user1', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:30:00'),
-('user2', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:35:00'),
-('user3', NULL, NULL, NULL, NULL, NULL, false, '2023-05-17 10:40:00');
+('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', true, '1684328400'),
+('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', true, '1684328700'),
+('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', true, '1684329000'),
+('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', true, '1684329300'),
+('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', true, '1684329600'),
+('angela_martin', 'password106', 'Angela', 'Martin', 'angela.martin@dundermifflin.com', 'Senior Accountant', true, '1684329900'),
+('kevin_malone', 'password107', 'Kevin', 'Malone', 'kevin.malone@dundermifflin.com', 'Accountant', true, '1684330200'),
+('oscar_martinez', 'password108', 'Oscar', 'Martinez', 'oscar.martinez@dundermifflin.com', 'Accountant', true, '1684330500');
 
 
 -- Insert mock data for "chatrooms" table
 INSERT INTO chatrooms
-(room_name, created_at, created_by, managed_by, open_to_public, description)
+(chatroom_name, created_at, created_by, managed_by, open_to_public, description)
 VALUES
-('Conference Room', '2023-05-15 10:30:00', 1, 1, false, 'Main conference room for meetings'),
-('Break Room', '2023-05-15 11:00:00', 1, 3, false, 'Room for relaxing and taking breaks'),
-('Sales Team', '2023-05-15 12:00:00', 1, 2, false, 'Chatroom for the sales team'),
-('Accounting', '2023-05-17 10:10:00', 1, 6, false, 'Chat for the Accounting Dept'),
-('Test', '2023-05-17 10:45:00', 1, 1, true, 'Testing App'),
-('Random', '2023-05-17 10:50:00', 1, 1, true, 'Random chatroom'),
-('Fun', '2023-05-17 10:55:00', 1, 1, true, 'For fun');
+('Conference Room', '1684420200', 1, 1, false, 'Main conference room for meetings'),
+('Break Room', '1684420500', 1, 3, false, 'Room for relaxing and taking breaks'),
+('Sales Team', '1684420800', 1, 2, false, 'Chatroom for the sales team'),
+('Accounting', '1684421100', 1, 6, false, 'Chat for the Accounting Dept'),
+('Test', '1684421400', 1, 1, true, 'Testing App'),
+('Random', '1684421700', 1, 1, true, 'Random chatroom'),
+('Fun', '1684422000', 1, 1, true, 'For fun');
 
 
 -- Insert mock data for "members" table
 INSERT INTO members
-(room_id, member_id)
+(chatroom_id, user_id)
 VALUES
 (1, 1),
 (1, 2),
@@ -55,33 +52,33 @@ VALUES
 (4, 6),
 (4, 7),
 (4, 8),
-(5, 9),
-(5, 10),
-(6, 9),
-(6, 11),
-(7, 9),
-(7, 10),
-(7, 11);
+(5, 1),
+(5, 2),
+(6, 1),
+(6, 4),
+(7, 1),
+(7, 2),
+(7, 4);
 
 
 -- Insert mock data for "messages" table
 INSERT INTO messages
-(chatroom_id, sender_id, content, sent_at)
+(chatroom_id, user_id, message, sent_at)
 VALUES
-(1, 1, 'Good morning, everyone!', '2023-05-15 10:35:00'),
-(1, 2, 'Morning, Pam!', '2023-05-15 10:36:00'),
-(1, 3, 'Hi, Jim!', '2023-05-15 10:36:02'),
-(1, 1, 'Let''s start the meeting.', '2023-05-15 10:40:00'),
-(2, 2, 'Up for a coffee?', '2023-05-15 11:05:00'),
-(2, 3, 'Sure!', '2023-05-15 11:06:00'),
-(3, 2, 'Great job on closing the sale!', '2023-05-15 12:10:00'),
-(3, 4, 'Thanks!', '2023-05-15 12:11:00'),
-(5, 9, 'Hello.', '2023-05-17 11:00:00'),
-(5, 9, 'Nice app!', '2023-05-17 11:00:05'),
-(6, 11, 'Animals that lay eggs don''t have belly buttons.', '2023-05-17 11:00:10'),
-(6, 9, 'Okay..?', '2023-05-17 11:00:15'),
-(6, 11, 'Tigers have striped skin, not just striped fur. The stripes are like fingerprints—no two tigers have the same pattern.', '2023-05-17 11:00:20'),
-(6, 9, 'Interesting..', '2023-05-17 11:00:25'),
-(7, 9, 'How does the ocean say hi? It waves!', '2023-05-17 11:00:30'),
-(7, 10, 'Why do birds fly south in the winter? It''s faster than walking!', '2023-05-17 11:00:35'),
-(7, 11, 'What''s Thanos'' favorite app on his phone? Snapchat.', '2023-05-17 11:00:40');
+(1, 1, 'Good morning, everyone!', '1684509600'),
+(1, 2, 'Morning, Pam!', '1684509660'),
+(1, 3, 'Hi, Jim!', '1684509720'),
+(1, 1, 'Let''s start the meeting.', '1684509780'),
+(2, 2, 'Up for a coffee?', '1684509840'),
+(2, 3, 'Sure!', '1684509900'),
+(3, 2, 'Great job on closing the sale!', '1684509960'),
+(3, 4, 'Thanks!', '1684510020'),
+(5, 1, 'Hello.', '1684510080'),
+(5, 1, 'Nice app!', '1684510140'),
+(6, 4, 'Animals that lay eggs don''t have belly buttons.', '1684510200'),
+(6, 1, 'Okay..?', '1684510260'),
+(6, 4, 'Tigers have striped skin, not just striped fur. The stripes are like fingerprints—no two tigers have the same pattern.', '1684510320'),
+(6, 1, 'Interesting..', '1684510380'),
+(7, 1, 'How does the ocean say hi? It waves!', '1684510440'),
+(7, 2, 'Why do birds fly south in the winter? It''s faster than walking!', '1684510500'),
+(7, 4, 'What''s Thanos'' favorite app on his phone? Snapchat.', '1684510560');

@@ -10,7 +10,7 @@ const getAllChatrooms = async () => {
   }
 }
 
-//show query
+//show query by id
 const getOneChatroom = async (id) => {
   try {
     const oneChatroom = await db.one("SELECT * FROM chatrooms WHERE id=$1;", id);
@@ -22,12 +22,12 @@ const getOneChatroom = async (id) => {
 
 //create query
 const createChatroom = async (chatroomToAdd) => {
-  const { room_name, created_at, created_by, managed_by, open_to_public, description } = chatroomToAdd;
+  const { chatroom_name, created_at, created_by, managed_by, open_to_public, description } = chatroomToAdd;
 
   try {
     const newChatroom = await db.one(
-      "INSERT INTO chatrooms (room_name, created_at, created_by, managed_by, open_to_public, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
-      [room_name, created_at, created_by, managed_by, open_to_public, description]
+      "INSERT INTO chatrooms (chatroom_name, created_at, created_by, managed_by, open_to_public, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+      [chatroom_name, created_at, created_by, managed_by, open_to_public, description]
     );
     return { success: true, payload: newChatroom };
   } catch (error) {
@@ -47,12 +47,12 @@ const deleteChatroom = async (id) => {
 
 //update query
 const updateChatroom = async (id, chatroomToUpdate) => {
-  const { room_name, created_at, created_by, managed_by, open_to_public, description } = chatroomToUpdate;
+  const { chatroom_name, created_at, created_by, managed_by, open_to_public, description } = chatroomToUpdate;
 
   try {
     const updatedChatroom = await db.one(
-      "UPDATE chatrooms SET room_name=$1, created_at=$2, created_by=$3, managed_by=$4, open_to_public=$5, description=$6 WHERE id=$7 RETURNING *;",
-      [room_name, created_at, created_by, managed_by, open_to_public, description, id]
+      "UPDATE chatrooms SET chatroom_name=$1, created_at=$2, created_by=$3, managed_by=$4, open_to_public=$5, description=$6 WHERE id=$7 RETURNING *;",
+      [chatroom_name, created_at, created_by, managed_by, open_to_public, description, id]
     );
     return { success: true, payload: updatedChatroom };
   } catch (error) {

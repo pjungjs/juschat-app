@@ -22,7 +22,7 @@ chatrooms.get('/', async (req, res) => {
   }
 })
 
-//show route
+//show route by id
 chatrooms.get('/:id', async (req, res) => {
   const { id } = req.params;
   const oneChatroom = await getOneChatroom(id);

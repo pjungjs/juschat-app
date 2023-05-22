@@ -18,17 +18,17 @@ CREATE TABLE users (
   first_name VARCHAR(80),
   last_name VARCHAR(80),
   email VARCHAR(100),
-  title TEXT,
+  short_bio TEXT,
   is_online BOOLEAN DEFAULT false,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at BIGINT NOT NULL
 );
 
 
--- Create the "chatrooms" table
+-- Create the "chatrooms" table. group chatrooms and individual chatroom.
 CREATE TABLE chatrooms (
   id SERIAL PRIMARY KEY,
-  room_name VARCHAR(80) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  chatroom_name VARCHAR(80),
+  created_at BIGINT NOT NULL,
   created_by INTEGER REFERENCES users (id) ON DELETE CASCADE,
   managed_by INTEGER REFERENCES users (id) ON DELETE CASCADE,
   open_to_public BOOLEAN DEFAULT false,
@@ -39,16 +39,21 @@ CREATE TABLE chatrooms (
 -- Create the "members" table
 CREATE TABLE members (
   id SERIAL PRIMARY KEY,
-  room_id INTEGER REFERENCES chatrooms (id) ON DELETE CASCADE,
-  member_id INTEGER REFERENCES users (id) ON DELETE CASCADE
+  chatroom_id INTEGER REFERENCES chatrooms (id) ON DELETE CASCADE NOT NULL,
+  user_id INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL
 );
 
 
 -- Create the "messages" table
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY,
-  chatroom_id INTEGER REFERENCES chatrooms (id) ON DELETE CASCADE,
-  sender_id INTEGER REFERENCES users (id) ON DELETE CASCADE,
-  content TEXT NOT NULL,
-  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  chatroom_id INTEGER REFERENCES chatrooms (id) ON DELETE CASCADE NOT NULL,
+  user_id INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL,
+  message TEXT NOT NULL,
+  sent_at BIGINT NOT NULL
 );
+
+
+-- SWITCHED FROM: created_at, sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- TO: created_at BIGINT
+-- to store UNIX timestamp from frontend.

@@ -2,33 +2,32 @@ const express = require('express');
 const members = express.Router({ mergeParams: true });
 const { 
   getAllMembers,
-  getOneMember,
+  getAllMembersByRoom,
   createMember,
   deleteMember,
   updateMember
 } = require('../queries/members.js');
 
-//index route
+//index route all
 members.get('/', async (req, res) => {
-  const { chatroomId } = req.params;
-  const allMembers = await getAllMembers(chatroomId);
+  const allMembers = await getAllMembers();
 
   if (allMembers.success) {
     res.status(200).json(allMembers.payload);
   } else {
-    res.status(400).json({ error: `members, index route error. ${allMembers.payload}` });
+    res.status(400).json({ error: `members, all index route error. ${allMembers.payload}` });
   }
 })
 
-//show route
-members.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const oneMember = await getOneMember(id);
+//index route all by chatroom_id
+members.get('/:chatroomId', async (req, res) => {
+  const { chatroomId } = req.params;
+  const allMembersByRoom = await getAllMembersByRoom(chatroomId);
 
-  if (oneMember.success) {
-    res.status(200).json(oneMember.payload);
+  if (allMembersByRoom.success) {
+    res.status(200).json(allMembersByRoom.payload);
   } else {
-    res.status(400).json({ error: `members, show route error. ${oneMember.payload}` });
+    res.status(400).json({ error: `members, all index by chatroomId route error. ${allMembersByRoom.payload}` });
   }
 })
 
