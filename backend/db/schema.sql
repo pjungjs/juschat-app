@@ -52,8 +52,3 @@ CREATE TABLE messages (
   message TEXT NOT NULL,
   sent_at BIGINT NOT NULL
 );
-
-
--- SWITCHED FROM: created_at, sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- TO: created_at BIGINT
--- to store UNIX timestamp from frontend.
