@@ -8,11 +8,11 @@
 INSERT INTO users
 (username, password, first_name, last_name, email, short_bio, is_online, created_at)
 VALUES
-('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', true, '1684328400'),
-('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', true, '1684328700'),
-('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', true, '1684329000'),
-('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', true, '1684329300'),
-('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', true, '1684329600'),
+('michael_scott', 'password101', 'Michael', 'Scott', 'michael.scott@dundermifflin.com', 'Regional Manager', false, '1684328400'),
+('jim_halpert', 'password102', 'Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'Sales Representative', false, '1684328700'),
+('pam_beesly', 'password103', 'Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'Receptionist', false, '1684329000'),
+('dwight_schrute', 'password104', 'Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'Assistant to the Regional Manager', false, '1684329300'),
+('andy_bernard', 'password105', 'Andy', 'Bernard', 'andy.bernard@dundermifflin.com', 'Sales Representative', false, '1684329600'),
 ('angela_martin', 'password106', 'Angela', 'Martin', 'angela.martin@dundermifflin.com', 'Senior Accountant', true, '1684329900'),
 ('kevin_malone', 'password107', 'Kevin', 'Malone', 'kevin.malone@dundermifflin.com', 'Accountant', true, '1684330200'),
 ('oscar_martinez', 'password108', 'Oscar', 'Martinez', 'oscar.martinez@dundermifflin.com', 'Accountant', true, '1684330500');
