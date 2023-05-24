@@ -17,12 +17,18 @@ function UserChatbox({ userId, roomId, allUsers, allMessagesByRoom, setAllMessag
     event.preventDefault();
     const messageToAdd = { 
       chatroom_id: roomId,
-      sender_id: userId,
-      content: newMessage,
-      sent_at: new Date()
+      user_id: userId,
+      message: newMessage,
+      sent_at: Math.floor(Date.now() / 1000)
     };
+
     createMessage(messageToAdd);
-    setAllMessagesByRoom([...allMessagesByRoom, messageToAdd])
+    if (allMessagesByRoom.length) {
+      setAllMessagesByRoom([...allMessagesByRoom, messageToAdd])
+    } else {
+      setAllMessagesByRoom([messageToAdd])
+    }
+    
     setNewMessage("");
   }
 
@@ -30,8 +36,6 @@ function UserChatbox({ userId, roomId, allUsers, allMessagesByRoom, setAllMessag
     const foundUserId = allUsers.find((theUser) => theUser.id === id);
     if (foundUserId.first_name) {
       return foundUserId.first_name;
-    } else if (foundUserId.username) {
-      return foundUserId.username;
     }
   }
 
@@ -51,17 +55,22 @@ function UserChatbox({ userId, roomId, allUsers, allMessagesByRoom, setAllMessag
             ) : (
               <div className="relative h-full">
                 <div className="overflow-y-scroll absolute inset-0">
-                  {allMessagesByRoom.map((message) => (
+                  {allMessagesByRoom.map((aMessage) => (
                     <div
-                      key={message.sent_at}
-                      className={(message.sender_id === userId ? "text-right" : "text-left")}
+                      key={aMessage.sent_at}
+                      className={(aMessage.user_id === userId ? "text-right" : "text-left")}
                     >
-                      <div
-                        className={"max-w-lg text-left inline-block p-2 my-2 rounded-md text-md " + (message.sender_id === userId ? "bg-sky-500 text-white" : "bg-white text-gray-500")}
-                      >
-                        {findUserById(message.sender_id)}
-                        {message.content}
-                      </div>
+                      {aMessage.user_id === userId
+                      ? (
+                        <div className="max-w-lg text-left inline-block p-2 my-2 rounded-md text-md bg-sky-500 text-white">
+                          {aMessage.message}
+                        </div>
+                      ) : (
+                        <div className="max-w-lg text-left inline-block p-2 my-2 rounded-md text-md bg-white text-gray-500">
+                          <span className="text-gray-700 font-semibold">{findUserById(aMessage.user_id)}:</span>
+                          &nbsp;{aMessage.message}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
