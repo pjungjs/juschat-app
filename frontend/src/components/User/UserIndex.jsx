@@ -4,7 +4,7 @@ import UserChatrooms from "./UserChatrooms.jsx";
 import UserChatbox from "./UserChatbox.jsx";
 const API = process.env.REACT_APP_API_URL;
 
-function UserIndex({ user, setUser }) {
+function UserIndex({ user, setUser, setIsActive }) {
   const [allUsers, setAllUsers] = useState({});
   const [allChatrooms, setAllChatrooms] = useState({});
   const [allMessagesByRoom, setAllMessagesByRoom] = useState({});
@@ -14,12 +14,12 @@ function UserIndex({ user, setUser }) {
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
-    const getAllUsers = async () => {
+    async function getAllUsers() {
       await axios
         .get(`${API}/users`)
         .then((response) => {
           const online = response.data.filter((theUser) => theUser.is_online === true);
-          if (!user.id) {
+          if (user && !user.id) {
             const loggedInUser = online.find((theUser) => theUser.username === user.username);
             setUser(loggedInUser);
           }
@@ -29,16 +29,18 @@ function UserIndex({ user, setUser }) {
         .catch((error) => console.error("Error: GET all Users", error))
     }
   
-    const getAllChatrooms = async () => {
+    async function getAllChatrooms() {
       await axios
         .get(`${API}/chatrooms`)
         .then((response) => setAllChatrooms(response.data))
         .catch((error) => console.error("Error: GET all Chatrooms", error))
     }
 
+    setIsActive("chat")
     getAllUsers();
     getAllChatrooms();
-  }, [user, setUser])
+  }, [])
+
 
   useEffect(() => {
     if (allUsers.length && user) {
@@ -46,10 +48,10 @@ function UserIndex({ user, setUser }) {
       if (theUser) setUserId(theUser.id);
     }
     if (allChatrooms.length && user) {
-      const theRoom = allChatrooms.find((theRoom) => theRoom.room_name === selectedRoom);
+      const theRoom = allChatrooms.find((theRoom) => theRoom.chatroom_name === selectedRoom);
       if (theRoom) setRoomId(theRoom.id);
     }
-  }, [user, allUsers, allChatrooms, selectedRoom])
+  }, [selectedRoom])
 
   useEffect(() => {
     const getAllMessagesByRoom = async () => {
@@ -70,9 +72,12 @@ function UserIndex({ user, setUser }) {
   return (
     <div className="flex h-screen">
       <UserChatrooms
+        user={user}
+        setUser={setUser}
         userId={userId}
         onlineUsers={onlineUsers}
         allChatrooms={allChatrooms}
+        setAllChatrooms={setAllChatrooms}
         selectedRoom={selectedRoom}
         setSelectedRoom={setSelectedRoom}
       />

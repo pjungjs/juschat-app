@@ -8,25 +8,24 @@ import NotFound from "./pages/NotFound.jsx";
 import About from "./pages/About.jsx";
 
 import UserIndex from "./components/User/UserIndex.jsx";
-import UserSetting from "./components/User/UserSetting.jsx";
+import UserSettings from "./components/User/UserSettings.jsx";
 
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
+  const [isActive, setIsActive] = useState("");
 
   return (
     <div className="App">
       <Router>
         <header>
-          <NavBar />
+          <NavBar user={user} isActive={isActive} setIsActive={setIsActive} />
         </header>
         <main>
           <Routes>
-            <Route path="/" element={<Home setUser={setUser} />} />
+            <Route path="/" element={<Home setUser={setUser} setIsActive={setIsActive} />} />
             <Route path="/about" element={<About />} />
-
-            <Route path="/user/:name" element={<UserIndex user={user} />} />
-            <Route path="/user/:name/settings" element={<UserSetting user={user} />}/>
-
+            <Route path="/user/chat" element={<UserIndex user={user} setUser={setUser} setIsActive={setIsActive} />} />
+            <Route path="/user/settings" element={<UserSettings user={user} setUser={setUser} setIsActive={setIsActive} />}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

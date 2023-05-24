@@ -7,18 +7,16 @@ function Footer() {
       <div className="mx-6 py-10 text-center">
         <div className="grid-1 grid gap-11 md:grid-cols-2 lg:grid-cols-4">
           <div className="justify-center">
-            <Link to="/">
-              <h6 className="mb-4 flex items-center justify-center font-semibold uppercase hover:underline">
-                JusChat App
-              </h6>
-            </Link>
-            <p>
+            <h6 className="mb-4 flex items-center justify-center font-semibold uppercase hover:underline">
+              JusChat App
+            </h6>
+            {/* <p>
               Tired of setting up an account and had to put all the personal and unnecessary informations?
               No more! Here in "JusChat" you can just log in and start chatting with whoever is online,
               or you can invite your friend just to chat.
               And if you wish to come back, you can set you basic informations.
               If not, your account will be automatically deleted, so no worries about security!
-            </p>
+            </p> */}
           </div>
           <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase">
@@ -62,8 +60,9 @@ function Footer() {
         </div>
       </div>
       <div className="bg-green-200 p-6 text-center">
-        <span>© 2023 Copyright: </span>
-        <span className="font-semibold">JusChat</span>
+        &copy; 2023 Copyright by
+        <span className="font-semibold"> JusChat</span>
+        . All rights reserved.
       </div>
     </div>
   )

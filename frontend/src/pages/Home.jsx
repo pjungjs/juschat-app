@@ -1,10 +1,10 @@
 import UserLogIn from "../components/User/UserLogIn.jsx";
 
-function Home({ setUser }) {
+function Home({ setUser, setIsActive }) {
+
   return (
     <div>
-      <h1>Home Page</h1>
-      <UserLogIn setUser={setUser} />
+      <UserLogIn setUser={setUser} setIsActive={setIsActive} />
     </div>
   )
 }

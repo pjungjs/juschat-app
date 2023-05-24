@@ -1,35 +1,51 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { HiOutlineArrowCircleRight } from "react-icons/hi";
+import UserNewChatroom from "./UserNewChatroom.jsx";
 const API = process.env.REACT_APP_API_URL;
 
-function UserChatrooms({ userId, onlineUsers, allChatrooms, selectedRoom, setSelectedRoom }) {
-  const [newChatroom, setNewChatroom] = useState({
-    room_name: "",
-    created_at: "",
-    created_by: "",
-    managed_by: "",
-    open_to_public: "",
-    description: ""
-  });
+function UserChatrooms({ user, setUser, userId, onlineUsers, allChatrooms, setAllChatrooms, selectedRoom, setSelectedRoom }) {
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const createChatroom = async (chatroomToAdd) => {
+  const logOutUpdateUser = async (editUser) =>  {
     await axios
-      .post(`${API}/chatrooms`, chatroomToAdd)
-      .then(() => console.log(`A new chatroom was added!`))
-      .catch((error) => console.warn("Error: POST new message", error))
+      .put(`${API}/users/${user.username}`, editUser)
+      .then((response) => {
+        console.log(response.data);
+        setUser({});
+        navigate("/");
+      })
+      .catch((error) => console.warn("Error: PUT", error))
   }
 
-  const addChatroom = () => {
-    // show modal to fill a new chatroom information.
-    const chatroomToAdd = {
-      room_name: "",
-      created_at: new Date(),
-      created_by: userId,
-      managed_by: userId,
-      open_to_public: "",
-      description: ""
-    };
-    createChatroom(chatroomToAdd);
+  const handleDelete = async () => {
+    await axios
+      .delete(`${API}/users/${user.username}`)
+      .then(() => {
+        setUser({});
+        navigate("/");
+      })
+      .catch(error => console.error("Error: DELETE", error))
+  }
+
+  const logOut = () => {
+    if (!user.password) {
+      alert("WARNING! If your password is not setup your account will be deleted automatically. If you wish to save your messages, please go to the Settings and update the password.");
+
+      if (window.confirm("Would you like to delete the account?")) {
+        alert("Account Deleted");
+        handleDelete();
+      } else {
+        alert("Please update the password");
+        navigate("/user/settings");
+      }
+    } else {
+      const editUser = { ...user, is_online: false };
+      logOutUpdateUser(editUser);
+    }
   }
 
   const showUserAvatar = (onlineUser) => {
@@ -53,56 +69,81 @@ function UserChatrooms({ userId, onlineUsers, allChatrooms, selectedRoom, setSel
   return (
     <div className="bg-white w-1/3 overflow-auto">
       <div>
+        <div className="flex text-cyan-600 font-bold text-xl gap-2 p-4 border-b-2 overflow-x-scroll">
+          <div className="flex">
+            <FaUserCircle className="h-7 w-7" />
+            &nbsp;{user.username}
+          </div>
+          &emsp;
+          <div
+            className="flex ml-auto cursor-pointer text-gray-600 text-base items-center"
+            onClick={() => logOut()}
+          >
+            Log Out
+            <HiOutlineArrowCircleRight className="h-5 w-5" />
+          </div>
+        </div>
+      </div>
+      <div className="border-b-2 pb-3">
         <div className="flex gap-2 p-4 text-blue-500 font-bold text-xl justify-between">
           Chatrooms
-          <button onClick={() => addChatroom()}>+ add</button>
+          <button onClick={() => setShowModal(!showModal)}>+ add</button>
+        </div>
+        <div>
+          {showModal && (
+            <UserNewChatroom userId={userId} onlineUsers={onlineUsers} allChatrooms={allChatrooms} setAllChatrooms={setAllChatrooms} showModal={showModal} setShowModal={setShowModal} />
+          )}
         </div>
         <div>
           {allChatrooms.length && (
             allChatrooms.map((chatroom) => (
-              <div
-                key={chatroom.id}
-                onClick={() => setSelectedRoom(chatroom.room_name)}
-                className={"border-b border-gray-100 flex items-center gap-2 cursor-pointer " + (chatroom.room_name === selectedRoom ? "bg-blue-50" : "")}
-              >
-                {chatroom.room_name === selectedRoom && (
-                  <div className="w-1 bg-blue-500 h-12"></div>
-                )}
-                <div className="flex py-2 pl-4">
-                  <span className={chatroom.room_name === selectedRoom ? "font-bold" : "text-gray-600"}>
-                    {chatroom.room_name}
-                  </span>
+              chatroom.chatroom_name && (
+                <div
+                  key={chatroom.id}
+                  onClick={() => setSelectedRoom(chatroom.chatroom_name)}
+                  className={"border-b border-gray-100 flex items-center gap-2 cursor-pointer " + (chatroom.chatroom_name === selectedRoom ? "bg-blue-50" : "")}
+                >
+                  {chatroom.chatroom_name === selectedRoom && (
+                    <div className="w-1 bg-blue-500 h-12"></div>
+                  )}
+                  <div className="flex py-2 pl-4">
+                    <span className={chatroom.chatroom_name === selectedRoom ? "font-bold" : "text-gray-600"}>
+                      {chatroom.chatroom_name}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )
             ))
           )}
         </div>
       </div>
-      <div>
-        <div className="text-blue-500 font-bold text-xl flex gap-2 p-4 pt-9">
+      <div className="border-b-2 pb-3">
+        <div className="flex gap-2 p-4 text-blue-500 font-bold text-xl">
           Online
         </div>
         {onlineUsers.length && (
           onlineUsers.map((onlineUser) => (
-            <div
-              key={onlineUser.id}
-              onClick={() => setSelectedRoom(onlineUser.username)}
-              className={"border-b border-gray-100 flex items-center gap-2 cursor-pointer " + (onlineUser.username === selectedRoom ? "bg-blue-50" : "")}
-            >
-              {onlineUser.username === selectedRoom && (
-                <div className="w-1 bg-blue-500 h-12"></div>
-              )}
-              <div className="flex gap-2 py-2 pl-4 items-center">
-                {showUserAvatar(onlineUser)}
-                <span className={onlineUser.username === selectedRoom ? "font-bold" : "text-gray-600"}>
-                  {
-                    onlineUser.first_name
-                    ? onlineUser.first_name + " " + onlineUser.last_name
-                    : onlineUser.username
-                  }
-                </span>
+            onlineUser.username !== user.username && (
+              <div
+                key={onlineUser.id}
+                // onClick={() => setSelectedRoom(onlineUser.username)}
+                className={"border-b border-gray-100 flex items-center gap-2 cursor-pointer " + (onlineUser.username === selectedRoom ? "bg-blue-50" : "")}
+              >
+                {onlineUser.username === selectedRoom && (
+                  <div className="w-1 bg-blue-500 h-12"></div>
+                )}
+                <div className="flex gap-2 py-2 pl-4 items-center">
+                  {showUserAvatar(onlineUser)}
+                  <span className={onlineUser.username === selectedRoom ? "font-bold" : "text-gray-600"}>
+                    {
+                      onlineUser.first_name && onlineUser.last_name
+                      ? onlineUser.first_name + " " + onlineUser.last_name
+                      : onlineUser.username
+                    }
+                  </span>
+                </div>
               </div>
-            </div>
+            )
           ))
         )}
       </div>
