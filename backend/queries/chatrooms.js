@@ -3,7 +3,7 @@ const db = require('../db/dbConfig.js');
 //index query
 const getAllChatrooms = async () => {
   try {
-    const allChatrooms = await db.any("SELECT * FROM chatrooms");
+    const allChatrooms = await db.any("SELECT * FROM chatrooms;");
     return { success: true, payload: allChatrooms };
   } catch (error) {
     return { success: false, payload: `chatrooms, index query error. ${error}` };

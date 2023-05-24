@@ -3,7 +3,7 @@ const db = require('../db/dbConfig.js');
 //index query
 const getAllMessages = async () => {
   try {
-    const allMessages = await db.any("SELECT * FROM messages");
+    const allMessages = await db.any("SELECT * FROM messages;");
     return { success: true, payload: allMessages };
   } catch (error) {
     return { success: false, payload: `messages, index query error. ${error}` };
@@ -13,7 +13,7 @@ const getAllMessages = async () => {
 //index query chatroom_id
 const getAllMessagesByRoom = async (chatroomId) => {
   try {
-    const allMessagesByRoom = await db.any("SELECT * FROM messages WHERE chatroom_id=$1", chatroomId);
+    const allMessagesByRoom = await db.any("SELECT * FROM messages WHERE chatroom_id=$1;", chatroomId);
     return { success: true, payload: allMessagesByRoom };
   } catch (error) {
     return { success: false, payload: `messages, index query error. ${error}` };

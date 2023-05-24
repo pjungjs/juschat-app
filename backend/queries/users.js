@@ -3,7 +3,7 @@ const db = require('../db/dbConfig.js');
 //index query
 const getAllUsers = async () => {
   try {
-    const allUsers = await db.any("SELECT * FROM users");
+    const allUsers = await db.any("SELECT * FROM users;");
     return { success: true, payload: allUsers };
   } catch (error) {
     return { success: false, payload: `users, index query error. ${error}` };
